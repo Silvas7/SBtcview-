@@ -52,13 +52,13 @@
       font-size: 14px;
     }
 
-    /* 🔘 TOGGLE SWITCH */
+    /* 🔘 TOGGLE */
     .switch {
       position: relative;
       display: inline-block;
       width: 60px;
       height: 30px;
-      margin-left: 10px;
+      margin: 0 8px;
     }
 
     .switch input {
@@ -70,12 +70,9 @@
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      inset: 0;
       background-color: #555;
-      transition: 0.4s;
+      transition: .4s;
       border-radius: 30px;
     }
 
@@ -87,7 +84,7 @@
       left: 4px;
       bottom: 4px;
       background-color: white;
-      transition: 0.4s;
+      transition: .4s;
       border-radius: 50%;
     }
 
@@ -101,14 +98,13 @@
 
     .moeda {
       font-size: 14px;
-      margin-left: 6px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- 🔒 PROTEÇÃO DE LOGIN -->
+  <!-- 🔒 PROTEÇÃO -->
   <script>
     if (localStorage.getItem("logado") !== "true") {
       window.location.href = "index.html";
@@ -141,12 +137,14 @@
   </div>
 
   <script>
+    // 🇺🇸 USD
     const paresUSD = {
       btc: "BINANCE:BTCUSDT",
       sol: "BINANCE:SOLUSDT",
       aave: "BINANCE:AAVEUSDT"
     };
 
+    // 🇧🇷 BRL (AAVE do Mercado Bitcoin)
     const paresBRL = {
       btc: "BINANCE:BTCBRL",
       sol: "BINANCE:SOLBRL",
@@ -165,9 +163,9 @@
     }
 
     function trocarMoeda() {
-      const ligado = document.getElementById("toggleMoeda").checked;
+      const brl = document.getElementById("toggleMoeda").checked;
 
-      if (ligado) {
+      if (brl) {
         carregarGraficos(paresBRL);
         document.getElementById("titulo").innerText = "Valores em Real (R$)";
       } else {
