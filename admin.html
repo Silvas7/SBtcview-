@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Painel Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  padding: 10px;
+}
+
+.box {
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+input, button {
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  background: #3498db;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button.remove {
+  background: #e74c3c;
+}
+
+.card {
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 8px;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🛠 Painel Administrativo</h1>
+
+<div class="box">
+  <input id="user" placeholder="Usuário">
+  <input id="pass" placeholder="Senha">
+  <button onclick="addUser()">➕ Adicionar usuário</button>
+
+  <button onclick="goPanel()">📊 Ir para o Painel Cripto</button>
+  <button class="remove" onclick="logout()">🚪 Sair</button>
+
+  <div id="users"></div>
+</div>
+
+<script>
+if (localStorage.getItem("logged") !== "admin") {
+  location.href = "index.html";
+}
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+
+function save() {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function addUser() {
+  const user = document.getElementById("user").value.trim();
+  const pass = document.getElementById("pass").value.trim();
+
+  if (!user || !pass) return alert("Preencha tudo");
+
+  users.push({ user, pass });
+  save();
+  render();
+}
+
+function removeUser(i) {
+  users.splice(i, 1);
+  save();
+  render();
+}
+
+function render() {
+  const div = document.getElementById("users");
+  div.innerHTML = "";
+
+  users.forEach((u, i) => {
+    div.innerHTML += `
+      <div class="card">
+        👤 ${u.user}
+        <button class="remove" onclick="removeUser(${i})">🗑</button>
+      </div>
+    `;
+  });
+}
+
+function goPanel() {
+  location.href = "painel.html";
+}
+
+function logout() {
+  localStorage.removeItem("logged");
+  location.href = "index.html";
+}
+
+render();
+</script>
+
+</body>
+</html>
