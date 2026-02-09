@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Painel Cripto em Real</title>
+  <title>Painel Cripto</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -33,13 +33,47 @@
       border-radius: 8px;
       background: #000;
     }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #141414;
+    }
+
+    .logout {
+      background: #ff5252;
+      border: none;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+    }
   </style>
 </head>
 
 <body>
-  <h1>📊 Painel Cripto — Valores em R$</h1>
 
+  <!-- 🔒 PROTEÇÃO DE LOGIN -->
+  <script>
+    if (localStorage.getItem("logado") !== "true") {
+      window.location.href = "index.html";
+    }
+  </script>
+
+  <!-- TOPO -->
+  <div class="top-bar">
+    <strong>📊 Painel Cripto</strong>
+    <button class="logout" onclick="logout()">Sair</button>
+  </div>
+
+  <h1>Valores em REAL (R$)</h1>
+
+  <!-- GRID DE GRÁFICOS -->
   <div class="grid">
+
     <!-- BITCOIN -->
     <iframe
       loading="lazy"
@@ -57,6 +91,15 @@
       loading="lazy"
       src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:SOLUSDT&interval=15&theme=dark&style=1&locale=pt&currency=BRL">
     </iframe>
+
   </div>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("logado");
+      window.location.href = "index.html";
+    }
+  </script>
+
 </body>
 </html>
