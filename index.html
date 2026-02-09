@@ -1,93 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: #0f0f0f;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #fff;
-    }
+<style>
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .box {
-      background: #141414;
-      padding: 30px;
-      width: 100%;
-      max-width: 360px;
-      border-radius: 10px;
-    }
+.box {
+  width: 300px;
+  background: #151515;
+  padding: 20px;
+  border-radius: 10px;
+  display: grid;
+  gap: 10px;
+}
 
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 22px;
-    }
+input, button {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
 
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      border: none;
-      background: #1f1f1f;
-      color: #fff;
-      font-size: 15px;
-      outline: none;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 6px;
-      background: #00c853;
-      color: #000;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .erro {
-      display: none;
-      margin-top: 10px;
-      color: #ff5252;
-      text-align: center;
-    }
-  </style>
+button {
+  background: #2ecc71;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
 </head>
 
 <body>
-  <div class="box">
-    <h1>🔐 Login</h1>
 
-    <input type="text" id="usuario" placeholder="Usuário">
-    <input type="password" id="senha" placeholder="Senha">
+<div class="box">
+  <h2 style="text-align:center">🔐 Login</h2>
+  <input id="user" placeholder="Usuário">
+  <input id="pass" type="password" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
+</div>
 
-    <button onclick="entrar()">Entrar</button>
+<script>
+const ADMIN_USER = "Administrador";
+const ADMIN_PASS = "NNsm7y9wsMm72";
 
-    <div class="erro" id="erro">Usuário ou senha inválidos</div>
-  </div>
+function login() {
+  const user = document.getElementById("user").value.trim();
+  const pass = document.getElementById("pass").value.trim();
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  <script>
-    function entrar() {
-      const usuario = document.getElementById("usuario").value;
-      const senha = document.getElementById("senha").value;
+  // ADMIN
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    localStorage.setItem("logged", "admin");
+    location.href = "admin.html";
+    return;
+  }
 
-      if (usuario === "Admin" && senha === "Silvasx7") {
-        localStorage.setItem("logado", "true");
-        window.location.href = "painel.html";
-      } else {
-        document.getElementById("erro").style.display = "block";
-      }
-    }
-  </script>
+  // USUÁRIOS NORMAIS
+  const found = users.find(u => u.user === user && u.pass === pass);
+  if (found) {
+    localStorage.setItem("logged", "user");
+    location.href = "painel.html";
+    return;
+  }
+
+  alert("Usuário ou senha inválidos");
+}
+</script>
+
 </body>
 </html>
